@@ -1,10 +1,14 @@
 <template>
+  <div class="container"> 
+    <users-list></users-list>
+  </div>
   <div class="container">
     <div class="block" :class="{animate : animatedBlock}"></div>
     <button @click="animateBlock">Animate</button>
   </div>
   <div class="container">
     <transition name="para"
+    :css="false"
     @before-enter="beforeEnter"
     @enter="enter"
     @after-enter="afterEnter"
@@ -36,69 +40,70 @@
 </template>  
 
 <script>
+
+import UsersList from './components/UsersList.vue';
 export default {
-  data() {
-    return { 
-      dialogIsVisible: false,
-      animatedBlock:false, 
-      paraIsVisible:false,
-      userAreVisible:false,
-      enterInterval:null,
-      leaveInterval:null,
-    };
-  },
-  methods: {
-    enterCancel(){
-
+    components:{UsersList},
+    data() {
+        return {
+            dialogIsVisible: false,
+            animatedBlock: false,
+            paraIsVisible: false,
+            userAreVisible: false,
+            enterInterval: null,
+            leaveInterval: null,
+        };
     },
-    leaveCancel(){
-
-    },
-    beforeEnter(el){
-      el.style.opacity=0;
-    },
-    enter(el,done){
-      let round=1;
-      this.enterInterval=setInterval(()=>{
-        el.style.opacity=round*0.1;
-        round ++;
-        if(round >10){
-          clearInterval(this.enterInterval);
-          done();
+    methods: {
+        enterCancel() {
+        },
+        leaveCancel() {
+        },
+        beforeEnter(el) {
+            el.style.opacity = 0;
+        },
+        enter(el, done) {
+            let round = 1;
+            this.enterInterval = setInterval(() => {
+                el.style.opacity = round * 0.1;
+                round++;
+                if (round > 10) {
+                    clearInterval(this.enterInterval);
+                    done();
+                }
+            }, 20);
+        },
+        leave(el, done) {
+            let round = 1;
+            this.leaveInterval = setInterval(function () {
+                el.style.opacity = 1 - round * 0.1;
+                round++;
+                if (round > 10) {
+                    clearInterval(this.leaveInterval);
+                    done();
+                }
+            }, 20);
+        },
+        animateBlock() {
+            this.animatedBlock = true;
+        },
+        showDialog() {
+            this.dialogIsVisible = true;
+        },
+        hideDialog() {
+            this.dialogIsVisible = false;
+        },
+        toggleParagraph() {
+            this.paraIsVisible = !this.paraIsVisible;
+        },
+        showUser() {
+            this.userAreVisible = true;
+        },
+        hideUser() {
+            this.userAreVisible = false;
         }
-      },20)
     },
-    leave(el,done){
-      let round=1;
-      this.leaveInterval=setInterval(function(){
-        el.style.opacity=1-round*0.1;
-        round ++;
-        if(round >10){
-          clearInterval(this.leaveInterval);
-          done();
-        }
-      },20)
-    },
-    animateBlock(){
-      this.animatedBlock=true;
-    },
-    showDialog() {
-      this.dialogIsVisible = true;
-    },
-    hideDialog() {
-      this.dialogIsVisible = false;
-    },
-    toggleParagraph(){
-      this.paraIsVisible=!this.paraIsVisible
-    },
-    showUser(){
-      this.userAreVisible=true;
-    },
-    hideUser(){
-      this.userAreVisible=false;
-    }
-
-  },
+  
 };
 </script>
 
