@@ -3,6 +3,12 @@
     <div class="block" :class="{animate : animatedBlock}"></div>
     <button @click="animateBlock">Animate</button>
   </div>
+  <div class="container">
+    <transition>
+      <p v-if="paraIsVisible">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia nemo quidem natus aliquid temporibus suscipit possimus, quod iure, non quaerat aperiam minus earum cum amet sint accusamus maxime id sit.</p>
+    </transition>
+    <button @click="toggleParagraph">Toggle Paragraph</button>
+  </div>
   <base-modal @close="hideDialog" v-if="dialogIsVisible">
     <p>This is a test dialog!</p>
     <button @click="hideDialog">Close it!</button>
@@ -18,6 +24,7 @@ export default {
     return { 
       dialogIsVisible: false,
       animatedBlock:false, 
+      paraIsVisible:false,
     };
   },
   methods: {
@@ -30,6 +37,9 @@ export default {
     hideDialog() {
       this.dialogIsVisible = false;
     },
+    toggleParagraph(){
+      this.paraIsVisible=!this.paraIsVisible
+    }
   },
 };
 </script>
@@ -94,5 +104,29 @@ button:active {
     background-color: wheat ;
   
   }
+ 
 }
+
+.v-enter-from{
+    opacity: 0.1;
+    transform: translateY(-50px) ;
+  }
+.v-enter-active{
+    transition: all 1s ease-out;
+  }
+.v-enter-to{
+  opacity: 1;
+    transform: translateY(0) ;
+  }
+.v-leave-from{
+  opacity: 1;
+    transform: translateY(0) ;
+  }
+.v-leave-active{
+    transition: all 1s ease-in;
+  }
+.v-leave-to{
+  opacity: 0.1;
+    transform: translateY(-50px) ;
+  }
 </style>
