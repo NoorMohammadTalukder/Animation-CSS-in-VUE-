@@ -60,9 +60,14 @@ li{
 }
 .user-list-leave-active{
     transition: all 1s ease-out;
+    position: absolute;
 }
 .user-list-leave-to{
     opacity: 0;
     transform: translateX(-50px);
 }
+.user-list-move{
+    transition: transform 1s ease;
+}
+
 </style>
